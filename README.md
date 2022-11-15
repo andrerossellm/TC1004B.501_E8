@@ -8,4 +8,5 @@ Luis Felipe Hernández Flores A01735939, Daniela Ruiz Arenas A01732921, André R
 * Configuración de los sensores en el ESP32
 * Configuración de Firebase
 * Desarrollo de código para interacción con IoT
+
 Para ver una descripción detallada, [visita la wiki](https://github.com/andrerossellm/TC1004B.501_E8/wiki) 
