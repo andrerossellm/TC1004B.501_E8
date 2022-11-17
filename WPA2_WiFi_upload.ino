@@ -30,8 +30,10 @@ float t;                        //Sensor DHT
 float f;                        //Sensor DHT
 int randomNumber;               //Numero aleatorio
 
-const char* ssid = "MEGACABLE-C29F";
-const char* password = "P6Jx2ncJ";
+//Credenciales para inicio de sesion en red WPA2
+const char* ssid = "Tec";
+#define EAP_IDENTITY "a01735939@tec.mx"
+#define EAP_PASSWORD "LF0602HF@tec2021"
 
 // Firebase insert auth
 #define USER_EMAIL "a01735939@tec.mx"
@@ -65,10 +67,22 @@ void setup() {
   Serial.print("Connecting to ");
   Serial.println(ssid);
 
+  // WPA2 enterprise magic starts here
+  WiFi.disconnect(true);
+  WiFi.mode(WIFI_STA);   //init wifi mode
+  //esp_wifi_set_mac(ESP_IF_WIFI_STA, &masterCustomMac[0]);
   Serial.print("MAC >> ");
   Serial.println(WiFi.macAddress());
   Serial.printf("Connecting to WiFi: %s ", ssid);
-  WiFi.begin(ssid, password);
+  //esp_wifi_sta_wpa2_ent_set_ca_cert((uint8_t *)incommon_ca, strlen(incommon_ca) + 1);
+  esp_wifi_sta_wpa2_ent_set_identity((uint8_t *)EAP_IDENTITY, strlen(EAP_IDENTITY));
+  esp_wifi_sta_wpa2_ent_set_username((uint8_t *)EAP_IDENTITY, strlen(EAP_IDENTITY));
+  esp_wifi_sta_wpa2_ent_set_password((uint8_t *)EAP_PASSWORD, strlen(EAP_PASSWORD));
+  //esp_wpa2_config_t configW = WPA2_CONFIG_INIT_DEFAULT();
+  //esp_wifi_sta_wpa2_ent_enable(&configW);
+  esp_wifi_sta_wpa2_ent_enable();
+  // WPA2 enterprise magic ends here
+  WiFi.begin(ssid);
 
   while (WiFi.status() != WL_CONNECTED) {
       delay(500);
@@ -129,8 +143,6 @@ void sensorDistancia(){
 
   // calculate the distance
   distance_cm = 0.017 * duration_us;
-  Serial.print(distance_cm);
-  Serial.print("\n");
 }
 
 void sensorMovimiento(){
@@ -221,8 +233,8 @@ void loop() {
       Serial.println("REASON: " + fbdo.errorReason());
     }
 
-    // Se manda la variable randomNumber a la database en path readings/numero
-    if (Firebase.RTDB.setInt(&fbdo, "readings/numero", randomNumber)){
+    // Se manda la variable randomNumber a la database en path readings/randomNumber
+    if (Firebase.RTDB.setInt(&fbdo, "readings/distance", randomNumber)){
       Serial.println("PASSED");
       Serial.println("PATH: " + fbdo.dataPath());
       Serial.println("TYPE: " + fbdo.dataType());
@@ -231,5 +243,6 @@ void loop() {
       Serial.println("FAILED");
       Serial.println("REASON: " + fbdo.errorReason());
     }
+
   }
 }
