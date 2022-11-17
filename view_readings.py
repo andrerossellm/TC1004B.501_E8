@@ -32,12 +32,12 @@ for item in info.each(): #imprime para cada elemento en readings/
     elif("distancia" == item.key()): #caso para distancia
         print(f' Elemento {item.key()} = {item.val()} cm.')
     elif("isFlame" == item.key()): #caso para el booleano que indica si hay flama
-        if(item.val()==0):
+        if(item.val()==False):
             print(" No hay presencia de flama")
         else:
             print(" Hay presencia de flama")
     elif("movimiento"==item.key()): #caso para booleano de movimiento
-        if(item.val()==0):
+        if(item.val()==False):
             print(" No hay presencia de movimiento")
         else:
             print(" Hay presencia de movimiento")
