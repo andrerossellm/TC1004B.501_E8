@@ -1,3 +1,5 @@
+//https://www.juanjobeunza.com/esp32-wifi/
+//https://create.arduino.cc/projecthub/electropeak/connecting-arduino-to-firebase-to-send-receive-data-cd8805
 #include <esp_wpa2.h>
 #include <WiFi.h>
 #include <Firebase_ESP_Client.h>  
@@ -30,8 +32,10 @@ float t;                        //Sensor DHT
 float f;                        //Sensor DHT
 int randomNumber;               //Numero aleatorio
 
-const char* ssid = "MEGACABLE-C29F";
-const char* password = "P6Jx2ncJ";
+//const char* ssid = "MEGACABLE-C29F";
+//const char* password = "P6Jx2ncJ";
+const char* ssid = "TP-LINK_343A";
+const char* password = "24038614";
 
 // Firebase insert auth
 #define USER_EMAIL "a01735939@tec.mx"
@@ -60,6 +64,11 @@ void setup() {
   Serial.println(F("DHTxx readings!"));
   dht.begin();
   delay(10);
+
+  // configure the trigger pin to output mode
+  pinMode(TRIG_PIN, OUTPUT);
+  // configure the echo pin to input mode
+  pinMode(ECHO_PIN, INPUT);
 
   Serial.println();
   Serial.print("Connecting to ");
@@ -121,7 +130,7 @@ void sensorFlama(){
 void sensorDistancia(){
   // generate 10-microsecond pulse to TRIG pin
   digitalWrite(TRIG_PIN, HIGH);
-  delayMicroseconds(5);
+  delayMicroseconds(10);
   digitalWrite(TRIG_PIN, LOW);
 
   // measure duration of pulse from ECHO pin
