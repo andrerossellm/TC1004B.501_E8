@@ -11,6 +11,10 @@ Para la situación problema de esta Unidad de Formación, se requiere proponer u
 Para poder utilizar los sensores disponibles para el ESP32, necesitamos programarlo a través del IDE Arduino, con la finalidad de manejar la información recabada a través de los sensores y enviarla a la base de datos utilizando la conexión a internet de la placa. 
 ### Configuración de Firebase
 La base de datos será manejada a través de la plataforma de Firebase, en la cual debemos configurar un proyecto antes de poder publicar o leer información. 
+
+Estructura de la base de datos:
+![imagen](https://user-images.githubusercontent.com/92490116/202615924-237e187d-4fc3-46fa-a795-56730ca2f5e9.png)
+
 ### Configuración de los sensores en el ESP32
 Una vez que el ESP32 está correctamente conectado con el entorno de desarrollo y tenemos una base de datos habilitada, podemos pasar a conectar la placa con los sensores mediante la protoboard. Una vez habilitados los sensores, pueden comenzar a recabar mediciones que serán públicadas; las variables físicas a publicar en la base de datos son: 
 1. Temperatura (en Celsius y Fahrenheit)
@@ -26,6 +30,7 @@ El sistema final funciona de manera adecuada
 IMAGENES DE APP Y ESP32
 
 Y, como se puede observar y recrear, reacciona de acuerdo a lo que se esperaba desde la etapa de diseño. 
-1. Estructura de la base de datos
 
+## Conclusiones
+Desarrollar un sistema multiplataforma de IoT nos permite identificar claramente la aplicación de conceptos revisados durante toda la unidad de formación; el punto que resalta para nosotros es la capacidad de transportar información haciendo uso de diversos tipos de dispositivos, que se encuentran interconectados y que pueden reaccionar a los comportamientos el uno del otro. No solo hablamos de información portable y accesible, también de un universo de dispositivos que pueden disponer de ella, con sistemas que modelen decisiones a partir de la misma, de esta forma es que el internet de las cosas empieza a generar oportunidad para la automatización de procesos e interconexión cotidiana. Sistemas que hoy aún parecen experimentales como de conducción autónoma se beneficiarían enormemente de formar parte de una red con información en tiempo real respecto a las condiciones de tráfico vehicular o de semáforos. Con esto en mente, nuestro proyecto demuestra el potencial para este tipo de sistemas que podrían servir, por ejemplo, para monitorear activamente condiciones en un laboratorio. Finalmente, nos quedamos satisfechos de haber aplicado correctamente los contenidos revisados en la UF para concretar un proyecto integrador exitosamente, que prueba en tiempo real las interacciones posibles por las infraestructuras de red. 
 
