@@ -277,20 +277,9 @@ void loop() {
       Serial.println("FAILED");
       Serial.println("REASON: " + fbdo.errorReason());
     }
-
-    // Se manda la variable randomNumber a la database en path readings/numero
-    if (Firebase.RTDB.setInt(&fbdo, "readings/numero", randomNumber)){
-      Serial.println("PASSED");
-      Serial.println("PATH: " + fbdo.dataPath());
-      Serial.println("TYPE: " + fbdo.dataType());
-    }
-    else {
-      Serial.println("FAILED");
-      Serial.println("REASON: " + fbdo.errorReason());
-    }
     
     if (Firebase.RTDB.getInt(&fbdo, "/readings/numero")){
-        numero = fbdo.intData();
+      numero = fbdo.intData();
     }
     
     segment_display(numero);
