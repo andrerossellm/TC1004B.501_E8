@@ -47,8 +47,7 @@ float duration_us, distance_cm; //Sensor distancia
 float h;                        //Sensor DHT
 float t;                        //Sensor DHT
 float f;                        //Sensor DHT
-int randomNumber;               //Numero aleatorio
-unsigned char contador = 0;     //Display numero
+int numero;                     //Numero de Firebase /readings/numero
 
 //const char* ssid = "MEGACABLE-C29F";
 //const char* password = "P6Jx2ncJ";
@@ -213,7 +212,6 @@ void loop() {
 
   if (Firebase.ready() && signupOK && (millis() - sendDataPrevMillis > 15000 || sendDataPrevMillis == 0)) {
     sendDataPrevMillis = millis();
-    randomNumber=random(9);
     // Se manda la variable t a la database en path readings/temperaturaC
     if (Firebase.RTDB.setFloat(&fbdo, "readings/temperaturaC", t)){
       Serial.println("PASSED");
@@ -290,9 +288,11 @@ void loop() {
       Serial.println("FAILED");
       Serial.println("REASON: " + fbdo.errorReason());
     }
-    segment_display(contador);
-    delay(1000);
-    if(contador < 15) contador++;
-    else contador = 0;
+    
+    if (Firebase.RTDB.getInt(&fbdo, "/readings/numero")){
+        numero = fbdo.intData();
+    }
+    
+    segment_display(numero);
   }
 }
