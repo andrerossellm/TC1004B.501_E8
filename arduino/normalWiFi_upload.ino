@@ -14,6 +14,23 @@
 #define S_MOV_PIN 19    // Pin input para el sensor de movimiento
 #define DHTPIN 4
 
+//Se declaran los pines a usar para el display
+int LEDs[] = {25,16,5,18,21,3,1};
+//25 g, 16 f, 5 e, 18 d, 3 c, 21 b, 1 a
+
+//se declaran los arreglos que forman los dígitos
+int zero[] = {0, 1, 1, 1, 1, 1, 1};   // cero
+int one[] = {0, 0, 0, 0, 1, 1, 0};   // uno
+int two[] = {1, 0, 1, 1, 0, 1, 1};   // dos
+int three[] = {1, 0, 0, 1, 1, 1, 1};   // tres
+int four[] = {1, 1, 0, 0, 1, 1, 0};   // cuatro 
+int five[] = {1, 1, 0, 1, 1, 0, 1};   // cinco
+int six[] = {1, 1, 1, 1, 1, 0, 1};   // seis
+int seven[] = {0, 0, 0, 0, 1, 1, 1};   // siete
+int eight[] = {1, 1, 1, 1, 1, 1, 1}; // ocho
+int nine[] = {1, 1, 0, 1, 1, 1, 1};   // nueve
+int no_number[] = {1, 0, 0, 0, 0, 0, 0};   // numero mayor a nueve
+
 // DHT 11
 #define DHTTYPE DHT11   
 DHT dht(DHTPIN, DHTTYPE);
@@ -31,6 +48,7 @@ float h;                        //Sensor DHT
 float t;                        //Sensor DHT
 float f;                        //Sensor DHT
 int randomNumber;               //Numero aleatorio
+unsigned char contador = 0;     //Display numero
 
 //const char* ssid = "MEGACABLE-C29F";
 //const char* password = "P6Jx2ncJ";
@@ -70,6 +88,9 @@ void setup() {
   // configure the echo pin to input mode
   pinMode(ECHO_PIN, INPUT);
 
+  // Se inicializan los pines del display como salida 
+  for (int i = 0; i<7; i++) pinMode(LEDs[i], OUTPUT);
+
   Serial.println();
   Serial.print("Connecting to ");
   Serial.println(ssid);
@@ -107,6 +128,35 @@ void setup() {
 }
 
 int value = 0;
+
+//función que despliega del 0 al F
+void segment_display(unsigned char valor){
+    switch(valor){
+        case 0:
+            for (int i = 0; i<7; i++) digitalWrite(LEDs[i], zero[i]); break;
+        case 1:
+            for (int i = 0; i<7; i++) digitalWrite(LEDs[i], one[i]); break;
+        case 2:
+            for (int i = 0; i<7; i++) digitalWrite(LEDs[i], two[i]); break;
+        case 3:
+            for (int i = 0; i<7; i++) digitalWrite(LEDs[i], three[i]); break;
+        case 4:
+            for (int i = 0; i<7; i++) digitalWrite(LEDs[i], four[i]); break;
+        case 5:
+            for (int i = 0; i<7; i++) digitalWrite(LEDs[i], five[i]); break;
+        case 6:
+            for (int i = 0; i<7; i++) digitalWrite(LEDs[i], six[i]); break;
+        case 7:
+            for (int i = 0; i<7; i++) digitalWrite(LEDs[i], seven[i]); break;
+        case 8:
+            for (int i = 0; i<7; i++) digitalWrite(LEDs[i], eight[i]); break;
+        case 9:
+            for (int i = 0; i<7; i++) digitalWrite(LEDs[i], nine[i]); break; 
+        default:
+            for (int i = 0; i<7; i++) digitalWrite(LEDs[i], no_number[i]); break;          
+    }
+}
+
 
 void sensorTempHum(){
   // Se lee humedad
@@ -240,5 +290,9 @@ void loop() {
       Serial.println("FAILED");
       Serial.println("REASON: " + fbdo.errorReason());
     }
+    segment_display(contador);
+    delay(1000);
+    if(contador < 15) contador++;
+    else contador = 0;
   }
 }
