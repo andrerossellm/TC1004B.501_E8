@@ -6,13 +6,6 @@
 #include <addons/TokenHelper.h>
 #include "Arduino.h"
 #include "addons/RTDBHelper.h"
-#include "DHT.h"
-
-#define TRIG_PIN 23     // ESP32 pin GIOP23 connected to Ultrasonic Sensor's TRIG pin
-#define ECHO_PIN 22     // ESP32 pin GIOP22 connected to Ultrasonic Sensor's ECHO pin
-#define FLAMA_PIN 17   // Pin input para el puerto DO . Sensor flama
-#define S_MOV_PIN 19    // Pin input para el sensor de movimiento
-#define DHTPIN 4
 
 //Se declaran los pines a usar para el display
 int LEDs[] = {25,16,5,18,21,3,1};
@@ -64,7 +57,6 @@ bool signupOK = false;
 void setup() {
   Serial.begin(115200);
   Serial.println(F("DHTxx readings!"));
-  dht.begin();
   delay(10);
 
   // Se inicializan los pines del display como salida 
@@ -134,10 +126,6 @@ void segment_display(unsigned char valor){
         default:
             for (int i = 0; i<7; i++) digitalWrite(LEDs[i], no_number[i]); break;          
     }
-}
-
-void lectura_numero(){
-
 }
 
 void loop() {
