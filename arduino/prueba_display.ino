@@ -1,10 +1,10 @@
 //se demuestra el manejo del display de siete segmentos
 
-//se declaran los pines a usar
+//se declaran los pines a usar para el display
 //int LEDs[] = {8,9,7,6,4,3,2};        // for Arduino microcontroller
 //int LEDs[] = {D2,D1,D3,D4,D6,D7,D8}; // for ESP8266 microcontroller
-int LEDs[] = {25,33,32,35,34,39,36};    // for ESP32 microcontroller
-//25 g, 33 f, 32 e, 35 d, 34 c, 39 b, 36 a    
+int LEDs[] = {25,16,5,18,21,3,1};    // for ESP32 microcontroller
+//25 g, 16 f, 5 e, 18 d, 3 c, 21 b, 1 a    
 
 //se declaran los arreglos que forman los dígitos
 int zero[] = {0, 1, 1, 1, 1, 1, 1};   // cero
