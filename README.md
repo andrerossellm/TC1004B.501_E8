@@ -13,6 +13,7 @@ Para poder utilizar los sensores disponibles para el ESP32, necesitamos programa
 La base de datos será manejada a través de la plataforma de Firebase, en la cual debemos configurar un proyecto antes de poder publicar o leer información. 
 
 Estructura de la base de datos:
+
 ![imagen](https://user-images.githubusercontent.com/92490116/202615924-237e187d-4fc3-46fa-a795-56730ca2f5e9.png)
 
 ### Configuración de los sensores en el ESP32
