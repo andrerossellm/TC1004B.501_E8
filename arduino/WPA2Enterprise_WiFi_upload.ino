@@ -29,8 +29,8 @@ int eight[] = {1, 1, 1, 1, 1, 1, 1}; // ocho
 int nine[] = {1, 1, 0, 1, 1, 1, 1};   // nueve
 int no_number[] = {1, 0, 0, 0, 0, 0, 0};   // numero mayor a nueve
 
-// DHT 11
-#define DHTTYPE DHT11   
+// Se define el tipo de sensor a utilizar
+#define DHTTYPE DHT11  
 DHT dht(DHTPIN, DHTTYPE);
 
 //Variables sensor de movimiento
@@ -48,15 +48,15 @@ float f;                        //Sensor DHT
 int numero;                     //Numero de Firebase /readings/numero
 
 //Credenciales para inicio de sesion en red con protocolo WPA2-Enterprise
-const char* ssid = "Tec";
-#define EAP_IDENTITY "a01735939@tec.mx"
-#define EAP_PASSWORD "LF0602HF@tec2021"
+const char* ssid = "Tec";       //Nombre de la red
+#define EAP_IDENTITY "a01735939@tec.mx"   //Nombre de usuario para WPA2-Enterprise
+#define EAP_PASSWORD "LF0602HF@tec2021"   //Contraseña de usuario para WPA2-Enterprise
 
-// Firebase insert auth
+// Credenciales para el escritura de datos en Firebase
 #define USER_EMAIL "a01735939@tec.mx"
 #define USER_PASSWORD "a01735939"
 
-// Insert Firebase project API Key
+// API Key de la DB en Firebase
 #define API_KEY "AIzaSyC6y5rPcMl6RU7kMSaSRhd4m6ccrF0siNs"//AIzaSyAjjTHMIV0y394tayvijhU-aVVcKdkIZxU
 
 // Insert RTDB URLefine the RTDB URL */
