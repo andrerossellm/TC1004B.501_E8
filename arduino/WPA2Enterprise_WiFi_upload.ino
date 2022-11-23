@@ -48,7 +48,7 @@ float f;                        //Sensor DHT
 int numero;                     //Numero de Firebase /readings/numero
 
 //Credenciales para inicio de sesion en red con protocolo WPA2-Enterprise
-const char* ssid = "Tec";       //Nombre de la red
+const char* ssid = "Tec";                 //Nombre de la red
 #define EAP_IDENTITY "a01735939@tec.mx"   //Nombre de usuario para WPA2-Enterprise
 #define EAP_PASSWORD "LF0602HF@tec2021"   //Contraseña de usuario para WPA2-Enterprise
 
@@ -59,7 +59,7 @@ const char* ssid = "Tec";       //Nombre de la red
 // API Key de la DB en Firebase
 #define API_KEY "AIzaSyC6y5rPcMl6RU7kMSaSRhd4m6ccrF0siNs"//AIzaSyAjjTHMIV0y394tayvijhU-aVVcKdkIZxU
 
-// Insert RTDB URLefine the RTDB URL */
+// Definimos el URL de la base de datos
 #define DATABASE_URL "https://pipin-ca62a-default-rtdb.firebaseio.com/"
 
 //Define Firebase Data object
@@ -71,18 +71,17 @@ FirebaseConfig config;
 unsigned long sendDataPrevMillis = 0;
 int intValue;
 float floatValue;
-
+// Valor booleano para evaluar el inicio de sesion exitoso
 bool signupOK = false;
 
 void setup() {
-  Serial.begin(115200);
-  Serial.println(F("DHTxx readings!"));
-  dht.begin();
-  delay(10);
+  Serial.begin(115200);       // Se incializa el puerto serial con tasa de informacion en 115200 bits/segundos
+  dht.begin();                // Se inicializa la lectura del sensor DHT11
+  delay(10);                  // Delay
 
-  // configure the trigger pin to output mode
+  // Se configura TRING_PIN como output
   pinMode(TRIG_PIN, OUTPUT);
-  // configure the echo pin to input mode
+  // Se configura TRING_PIN como input
   pinMode(ECHO_PIN, INPUT);
 
   // Se inicializan los pines del display como salida 
@@ -92,8 +91,8 @@ void setup() {
   Serial.print("Connecting to ");
   Serial.println(ssid);
 
-  // WPA2 enterprise magic starts here
-  WiFi.disconnect(true);
+  // WPA2-Enterprise
+  WiFi.disconnect(true);    //
   WiFi.mode(WIFI_STA);   //init wifi mode
   //esp_wifi_set_mac(ESP_IF_WIFI_STA, &masterCustomMac[0]);
   Serial.print("MAC >> ");
@@ -198,6 +197,7 @@ void sensorDistancia(){
   distance_cm = 0.017 * duration_us;
 }
 
+// Funcion para el sensor de movimiento
 void sensorMovimiento(){
   pinStatePrevious = pinStateCurrent;         // Se actualiza el estado anterior de la variable movimiento
   pinStateCurrent = digitalRead(S_MOV_PIN);   // Se actualiza el estado presente de la variable movimiento
