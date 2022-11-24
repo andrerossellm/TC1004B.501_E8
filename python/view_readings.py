@@ -21,8 +21,8 @@ flag=False; #este bool se usa para detectar el cambio en usuario e imprimir un a
 for item in info.each(): #imprime para cada elemento en readings/
     if(item.key()=="usuario"):
         print(f' Elemento {item.key()} = {item.val()}')
-    if(item.key()=="numero"): #caso especifico para el dato _numero_
-        if(item.val()>9):
+    elif(item.key()=="numero"): #caso especifico para el dato _numero_
+        if(int(item.val())>9):
             db.child("readings").update({"usuario":"elemento mayor a 9"}) #hace el cambio en campo usuario
             flag=True;
             print(" Numero mayor que 9... ")
