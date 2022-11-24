@@ -279,10 +279,9 @@ void loop() {
     }
     
     // Se valida el que haya una variable en la direccion especificada
-    if (Firebase.RTDB.getString(&fbdo, "/readings/numero")){
-      // Se lee la variable en /readings/numero y se transforma a int
-      numeroString = fbdo.intData();
-      numero = numeroString.toInt();
+    if (Firebase.RTDB.getInt(&fbdo, "/readings/numero")){
+      // Se lee la variable en /readings/numero
+      numero = fbdo.intData();
     }
     
     segment_display(numero);
