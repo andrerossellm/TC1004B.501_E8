@@ -279,9 +279,9 @@ void loop() {
     }
     
     // Se valida el que haya una variable en la direccion especificada
-    if (Firebase.RTDB.getInt(&fbdo, "/readings/numero")){
+    if (Firebase.RTDB.getString(&fbdo, "/readings/numero")){
       // Se lee la variable en /readings/numero
-      numero = fbdo.intData();
+      numero = stoi(fbdo.intData());
     }
     segment_display(numero);
   }
