@@ -10,7 +10,7 @@
 #define ECHO_PIN 22     // ESP32 pin GIOP22 connected to Ultrasonic Sensor's ECHO pin
 #define FLAMA_PIN 17   // Pin input para el puerto DO . Sensor flama
 #define S_MOV_PIN 19    // Pin input para el sensor de movimiento
-#define DHTPIN 4
+#define DHT_PIN 4
 
 //Se declaran los pines a usar para el display
 int LEDs[] = {25,16,5,18,21,3,1};
@@ -31,7 +31,7 @@ int no_number[] = {1, 0, 0, 0, 0, 0, 0};   // numero mayor a nueve
 
 // Se define el tipo de sensor a utilizar
 #define DHTTYPE DHT11  
-DHT dht(DHTPIN, DHTTYPE);
+DHT dht(DHT_PIN, DHTTYPE);
 
 //Variables sensor de movimiento
 int pinStateCurrent   = LOW;  // current state of pin
