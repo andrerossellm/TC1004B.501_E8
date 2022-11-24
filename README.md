@@ -28,7 +28,35 @@ Se produjeron diversos códigos para cumplir con los objetivos del sistema y tod
 ## Resultados
 El sistema final funciona de manera adecuada
 
-IMAGENES DE APP Y ESP32
+### Implementación en Python
+* Cuando el numero es menor que 9:
+
+  Entrada
+  
+![image](https://user-images.githubusercontent.com/92490116/202628178-6f17d2d4-4dbd-4dfe-adf2-3aa2af377f6e.png)
+  
+  Ejecución
+  
+![image](https://user-images.githubusercontent.com/92490116/202628245-f9657065-dabd-4724-89c8-e064ba9d05dc.png)
+  
+  Salida
+  
+![image](https://user-images.githubusercontent.com/92490116/202628389-20a7dd72-dbc3-43d6-a46d-3cbaa719a072.png)
+* Cuando el numero es mayor que 9:
+  
+  Entrada
+  
+![image](https://user-images.githubusercontent.com/92490116/202628495-90e6d41c-1c84-4962-9e75-3329d51c1879.png)
+  
+  Ejecución
+  
+![image](https://user-images.githubusercontent.com/92490116/202628559-9818972f-1b64-4819-ae1a-5660918c5452.png)
+  
+  Salida
+  
+![image](https://user-images.githubusercontent.com/92490116/202628596-e6d8e395-828d-484e-aacb-c1407710ec06.png)
+
+
 
 Y, como se puede observar y recrear, reacciona de acuerdo a lo que se esperaba desde la etapa de diseño. 
 

@@ -12,8 +12,25 @@
 #define S_MOV_PIN 19    // Pin input para el sensor de movimiento
 #define DHTPIN 4
 
-// DHT 11
-#define DHTTYPE DHT11   
+//Se declaran los pines a usar para el display
+int LEDs[] = {25,16,5,18,21,3,1};
+//25 g, 16 f, 5 e, 18 d, 3 c, 21 b, 1 a
+
+// Se declaran los arreglos que forman los dígitos
+int zero[] = {0, 1, 1, 1, 1, 1, 1};   // cero
+int one[] = {0, 0, 0, 0, 1, 1, 0};   // uno
+int two[] = {1, 0, 1, 1, 0, 1, 1};   // dos
+int three[] = {1, 0, 0, 1, 1, 1, 1};   // tres
+int four[] = {1, 1, 0, 0, 1, 1, 0};   // cuatro 
+int five[] = {1, 1, 0, 1, 1, 0, 1};   // cinco
+int six[] = {1, 1, 1, 1, 1, 0, 1};   // seis
+int seven[] = {0, 0, 0, 0, 1, 1, 1};   // siete
+int eight[] = {1, 1, 1, 1, 1, 1, 1}; // ocho
+int nine[] = {1, 1, 0, 1, 1, 1, 1};   // nueve
+int no_number[] = {1, 0, 0, 0, 0, 0, 0};   // numero mayor a nueve
+
+// Se define el tipo de sensor a utilizar
+#define DHTTYPE DHT11  
 DHT dht(DHTPIN, DHTTYPE);
 
 //Variables sensor de movimiento
@@ -28,21 +45,19 @@ float duration_us, distance_cm; //Sensor distancia
 float h;                        //Sensor DHT
 float t;                        //Sensor DHT
 float f;                        //Sensor DHT
-int randomNumber;               //Numero aleatorio
+int numero;                     //Numero de Firebase /readings/numero
 
-//Credenciales para inicio de sesion en red WPA2
-const char* ssid = "Tec";
-#define EAP_IDENTITY "a01735939@tec.mx"
-#define EAP_PASSWORD "LF0602HF@tec2021"
+const char* ssid = "LAPTOP-Luis";
+const char* password = "lf0602hf";
 
-// Firebase insert auth
+// Credenciales para el escritura de datos en Firebase
 #define USER_EMAIL "a01735939@tec.mx"
 #define USER_PASSWORD "a01735939"
 
-// Insert Firebase project API Key
+// API Key de la DB en Firebase
 #define API_KEY "AIzaSyC6y5rPcMl6RU7kMSaSRhd4m6ccrF0siNs"//AIzaSyAjjTHMIV0y394tayvijhU-aVVcKdkIZxU
 
-// Insert RTDB URLefine the RTDB URL */
+// Definimos el URL de la base de datos
 #define DATABASE_URL "https://pipin-ca62a-default-rtdb.firebaseio.com/"
 
 //Define Firebase Data object
@@ -54,36 +69,33 @@ FirebaseConfig config;
 unsigned long sendDataPrevMillis = 0;
 int intValue;
 float floatValue;
-
+// Valor booleano para evaluar el inicio de sesion exitoso
 bool signupOK = false;
 
 void setup() {
-  Serial.begin(115200);
-  Serial.println(F("DHTxx readings!"));
-  dht.begin();
-  delay(10);
+  Serial.begin(115200);       // Se incializa el puerto serial con tasa de informacion en 115200 bits/segundos
+  dht.begin();                // Se inicializa la lectura del sensor DHT11
+  delay(10);                  // Delay
+
+  // Se configura TRING_PIN como output
+  pinMode(TRIG_PIN, OUTPUT);
+  // Se configura TRING_PIN como input
+  pinMode(ECHO_PIN, INPUT);
+
+  // Se inicializan los pines del display como salida 
+  for (int i = 0; i<7; i++) pinMode(LEDs[i], OUTPUT);
 
   Serial.println();
   Serial.print("Connecting to ");
+  // Se imprime el ssid de la red declarada
   Serial.println(ssid);
-
-  // WPA2 enterprise magic starts here
-  WiFi.disconnect(true);
-  WiFi.mode(WIFI_STA);   //init wifi mode
-  //esp_wifi_set_mac(ESP_IF_WIFI_STA, &masterCustomMac[0]);
+  // Se imprime el direccion MAC de la red declarada
   Serial.print("MAC >> ");
   Serial.println(WiFi.macAddress());
   Serial.printf("Connecting to WiFi: %s ", ssid);
-  //esp_wifi_sta_wpa2_ent_set_ca_cert((uint8_t *)incommon_ca, strlen(incommon_ca) + 1);
-  esp_wifi_sta_wpa2_ent_set_identity((uint8_t *)EAP_IDENTITY, strlen(EAP_IDENTITY));
-  esp_wifi_sta_wpa2_ent_set_username((uint8_t *)EAP_IDENTITY, strlen(EAP_IDENTITY));
-  esp_wifi_sta_wpa2_ent_set_password((uint8_t *)EAP_PASSWORD, strlen(EAP_PASSWORD));
-  //esp_wpa2_config_t configW = WPA2_CONFIG_INIT_DEFAULT();
-  //esp_wifi_sta_wpa2_ent_enable(&configW);
-  esp_wifi_sta_wpa2_ent_enable();
-  // WPA2 enterprise magic ends here
-  WiFi.begin(ssid);
-
+  // Se inicializa la conexion a Internet con las credenciales declaradas
+  WiFi.begin(ssid, password);
+  
   while (WiFi.status() != WL_CONNECTED) {
       delay(500);
       Serial.print(".");
@@ -92,11 +104,11 @@ void setup() {
   Serial.println("WiFi connected");
   Serial.println("IP address: ");
   Serial.println(WiFi.localIP());
-///* Assign the api key (required) */
+  // Se asigna la variable API_KEY a config.api_key
   config.api_key = API_KEY;
-  /* Assign the RTDB URL (required) */
+  // Se asigna la variable DATABASE_URL a config.database_url
   config.database_url = DATABASE_URL;
-  /* Sign up */
+  // Se verifica que el loggeo con la DB haya sido exitoso
   if (Firebase.signUp(&config, &auth, "", "")){
     Serial.println("ok");
     signupOK = true;
@@ -106,12 +118,41 @@ void setup() {
   }
   /* Assign the callback function for the long running token generation task */
   config.token_status_callback = tokenStatusCallback; //see addons/TokenHelper.h
-
+  // Se inicializa Firebase con las credenciales declaradas anteriormente
   Firebase.begin(&config, &auth);
   Firebase.reconnectWiFi(true);
 }
 
 int value = 0;
+
+// Funcion que ilumina los segmentos correspondientes del display 7 segmentos
+// según el numero en parametro
+void segment_display(unsigned char valor){
+    switch(valor){
+        case 0:
+            for (int i = 0; i<7; i++) digitalWrite(LEDs[i], zero[i]); break;
+        case 1:
+            for (int i = 0; i<7; i++) digitalWrite(LEDs[i], one[i]); break;
+        case 2:
+            for (int i = 0; i<7; i++) digitalWrite(LEDs[i], two[i]); break;
+        case 3:
+            for (int i = 0; i<7; i++) digitalWrite(LEDs[i], three[i]); break;
+        case 4:
+            for (int i = 0; i<7; i++) digitalWrite(LEDs[i], four[i]); break;
+        case 5:
+            for (int i = 0; i<7; i++) digitalWrite(LEDs[i], five[i]); break;
+        case 6:
+            for (int i = 0; i<7; i++) digitalWrite(LEDs[i], six[i]); break;
+        case 7:
+            for (int i = 0; i<7; i++) digitalWrite(LEDs[i], seven[i]); break;
+        case 8:
+            for (int i = 0; i<7; i++) digitalWrite(LEDs[i], eight[i]); break;
+        case 9:
+            for (int i = 0; i<7; i++) digitalWrite(LEDs[i], nine[i]); break; 
+        default:
+            for (int i = 0; i<7; i++) digitalWrite(LEDs[i], no_number[i]); break;          
+    }
+}
 
 void sensorTempHum(){
   // Se lee humedad
@@ -123,7 +164,7 @@ void sensorTempHum(){
 }
 
 void sensorFlama(){
-  isFlame = digitalRead(FLAMA_PIN);//Readd the data gien by the flame sensor
+  isFlame = digitalRead(FLAMA_PIN);   // Se le asigna a isFlame el valor recibido por el sensor de flama
   if(isFlame==HIGH){
     flama=true;
   }
@@ -133,40 +174,44 @@ void sensorFlama(){
 }
 
 void sensorDistancia(){
-  // generate 10-microsecond pulse to TRIG pin
   digitalWrite(TRIG_PIN, HIGH);
-  delayMicroseconds(5);
+  // Genera un delay de 10 microsegundos para la medicion de la distancia
+  delayMicroseconds(10);
   digitalWrite(TRIG_PIN, LOW);
 
-  // measure duration of pulse from ECHO pin
+  // Mide la duracion del pulso generado por el ECHO_PIN
   duration_us = pulseIn(ECHO_PIN, HIGH);
 
-  // calculate the distance
+  // Se calcula la distancia mediante una conversion
   distance_cm = 0.017 * duration_us;
 }
 
 void sensorMovimiento(){
   pinStatePrevious = pinStateCurrent;         // Se actualiza el estado anterior de la variable movimiento
   pinStateCurrent = digitalRead(S_MOV_PIN);   // Se actualiza el estado presente de la variable movimiento
+  // En el caso de que la medicion anterior sea LOW y la actual HIGH, hay llama
   if (pinStatePrevious == LOW && pinStateCurrent == HIGH) {
     movimiento=true;
   }
   else if (pinStatePrevious == HIGH && pinStateCurrent == LOW) {
     movimiento=false;
   }
+  // En el caso de que la medicion anterior sea HIGH y la actual LOW, no hay llama
 }
 
 void loop() {
   delay(2000);
-  //Se llama a la funcion que lee temp y humedad
+  // Se llaman a la funciones dedicadas a las mediciones
   sensorTempHum();
   sensorFlama();
   sensorDistancia();
   sensorMovimiento();
 
+  // Se validan diversas cuestiones para determinar que la conexion wifi y el logging in a la base de datos haya sido exitoso
   if (Firebase.ready() && signupOK && (millis() - sendDataPrevMillis > 15000 || sendDataPrevMillis == 0)) {
     sendDataPrevMillis = millis();
-    randomNumber=random(9);
+    // Para todas las escrituras de variables, se valida que la escritura haya sido exitosa
+    // En caso de que no se pueda escribir la lectura, se imprime la razon del error
     // Se manda la variable t a la database en path readings/temperaturaC
     if (Firebase.RTDB.setFloat(&fbdo, "readings/temperaturaC", t)){
       Serial.println("PASSED");
@@ -232,17 +277,12 @@ void loop() {
       Serial.println("FAILED");
       Serial.println("REASON: " + fbdo.errorReason());
     }
-
-    // Se manda la variable randomNumber a la database en path readings/randomNumber
-    if (Firebase.RTDB.setInt(&fbdo, "readings/distance", randomNumber)){
-      Serial.println("PASSED");
-      Serial.println("PATH: " + fbdo.dataPath());
-      Serial.println("TYPE: " + fbdo.dataType());
+    
+    // Se valida el que haya una variable en la direccion especificada
+    if (Firebase.RTDB.getInt(&fbdo, "/readings/numero")){
+      // Se lee la variable en /readings/numero
+      numero = fbdo.intData();
     }
-    else {
-      Serial.println("FAILED");
-      Serial.println("REASON: " + fbdo.errorReason());
-    }
-
+    segment_display(numero);
   }
 }
