@@ -283,7 +283,6 @@ void loop() {
       // Se lee la variable en /readings/numero
       numero = fbdo.intData();
     }
-    
     segment_display(numero);
   }
 }
