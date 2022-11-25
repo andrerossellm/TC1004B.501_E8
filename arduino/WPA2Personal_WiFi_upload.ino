@@ -34,19 +34,21 @@ int no_number[] = {1, 0, 0, 0, 0, 0, 0};   // numero mayor a nueve
 DHT dht(DHT_PIN, DHTTYPE);
 
 //Variables sensor de movimiento
-int pinStateCurrent   = LOW;  // current state of pin
-int pinStatePrevious  = LOW;  // previous state of pin
+int pinStateCurrent   = LOW;  // Estado actual de la lectura del pin
+int pinStatePrevious  = LOW;  // Estado anterior de la lectura del pin
 
 //Variables
-int isFlame = HIGH;             // Sensor flama. HIGH MEANS NO FLAME
+int isFlame = HIGH;             // Sensor flama. HIGH significa NO FLAME
 bool flama;
 bool movimiento;
 float duration_us, distance_cm; //Sensor distancia
 float h;                        //Sensor DHT
 float t;                        //Sensor DHT
 float f;                        //Sensor DHT
-int numero;                     //Numero de Firebase /readings/numero
+String numero;                  //Numero de Firebase /readings/numero
+int num;
 
+// Credenciales para conectarse a la red bajo protocolo WPA2-Personal
 const char* ssid = "LAPTOP-Luis";
 const char* password = "lf0602hf";
 
@@ -281,8 +283,11 @@ void loop() {
     // Se valida el que haya una variable en la direccion especificada
     if (Firebase.RTDB.getString(&fbdo, "/readings/numero")){
       // Se lee la variable en /readings/numero
-      numero = stoi(fbdo.intData());
+      numero = fbdo.stringData();
+      num=numero.toInt();
+      Serial.println(num);
+      Serial.println("\n");
     }
-    segment_display(numero);
+    segment_display(num);
   }
 }
