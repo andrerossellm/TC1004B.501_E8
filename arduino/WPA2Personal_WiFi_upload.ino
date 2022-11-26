@@ -209,8 +209,6 @@ void loop() {
     // Se manda la variable t a la database en path readings/temperaturaC
     if (Firebase.RTDB.setFloat(&fbdo, "readings/temperaturaC", t)){
       Serial.println("PASSED");
-      Serial.println("PATH: " + fbdo.dataPath());
-      Serial.println("TYPE: " + fbdo.dataType());
     }
     else {
       Serial.println("FAILED");
@@ -220,8 +218,6 @@ void loop() {
     // Se manda la variable f a la database en path readings/temperaturaF
     if (Firebase.RTDB.setFloat(&fbdo, "readings/temperaturaF", f)){
       Serial.println("PASSED");
-      Serial.println("PATH: " + fbdo.dataPath());
-      Serial.println("TYPE: " + fbdo.dataType());
     }
     else {
       Serial.println("FAILED");
@@ -231,8 +227,6 @@ void loop() {
     // Se manda la variable f a la database en path readings/humedad
     if (Firebase.RTDB.setFloat(&fbdo, "readings/humedad", h)){
       Serial.println("PASSED");
-      Serial.println("PATH: " + fbdo.dataPath());
-      Serial.println("TYPE: " + fbdo.dataType());
     }
     else {
       Serial.println("FAILED");
@@ -242,8 +236,6 @@ void loop() {
     //Se manda la variable flama a la database en path readings/isFlame
     if (Firebase.RTDB.setBool(&fbdo, "readings/isFlame", flama)){
       Serial.println("PASSED");
-      Serial.println("PATH: " + fbdo.dataPath());
-      Serial.println("TYPE: " + fbdo.dataType());
     }
     else {
       Serial.println("FAILED");
@@ -253,8 +245,6 @@ void loop() {
     //Se manda la variable movimiento a la database en path readings/movement
     if (Firebase.RTDB.setBool(&fbdo, "readings/movement", movimiento)){
       Serial.println("PASSED");
-      Serial.println("PATH: " + fbdo.dataPath());
-      Serial.println("TYPE: " + fbdo.dataType());
     }
     else {
       Serial.println("FAILED");
@@ -264,8 +254,6 @@ void loop() {
     // Se manda la variable distance_cm a la database en path readings/distance
     if (Firebase.RTDB.setFloat(&fbdo, "readings/distance", distance_cm)){
       Serial.println("PASSED");
-      Serial.println("PATH: " + fbdo.dataPath());
-      Serial.println("TYPE: " + fbdo.dataType());
     }
     else {
       Serial.println("FAILED");
