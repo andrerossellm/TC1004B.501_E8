@@ -6,11 +6,7 @@
 #include "addons/RTDBHelper.h"
 #include "DHT.h"
 
-#define TRIG_PIN 23     // ESP32 pin GIOP23 connected to Ultrasonic Sensor's TRIG pin
-#define ECHO_PIN 22     // ESP32 pin GIOP22 connected to Ultrasonic Sensor's ECHO pin
-#define FLAMA_PIN 17   // Pin input para el puerto DO . Sensor flama
-#define S_MOV_PIN 19    // Pin input para el sensor de movimiento
-#define DHT_PIN 4
+
 
 //Se declaran los pines a usar para el display
 int LEDs[] = {25,16,5,18,21,3,1};
@@ -91,10 +87,6 @@ void setup() {
   Serial.print("Connecting to ");
   // Se imprime el ssid de la red declarada
   Serial.println(ssid);
-  // Se imprime el direccion MAC de la red declarada
-  Serial.print("MAC >> ");
-  Serial.println(WiFi.macAddress());
-  Serial.printf("Connecting to WiFi: %s ", ssid);
   // Se inicializa la conexion a Internet con las credenciales declaradas
   WiFi.begin(ssid, password);
   
