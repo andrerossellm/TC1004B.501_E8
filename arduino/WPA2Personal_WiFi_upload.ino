@@ -6,8 +6,6 @@
 #include "addons/RTDBHelper.h"
 #include "DHT.h"
 
-
-
 //Se declaran los pines a usar para el display
 int LEDs[] = {25,16,5,18,21,3,1};
 //25 g, 16 f, 5 e, 18 d, 3 c, 21 b, 1 a
