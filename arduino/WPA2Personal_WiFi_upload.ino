@@ -265,8 +265,6 @@ void loop() {
       // Se lee la variable en /readings/numero
       numero = fbdo.stringData();
       num=numero.toInt();
-      Serial.println(num);
-      Serial.println("\n");
     }
     segment_display(num);
   }
