@@ -43,7 +43,7 @@ String numero;                  //Numero de Firebase /readings/numero
 int num;
 
 // Credenciales para conectarse a la red bajo protocolo WPA2-Personal
-const char* ssid = "LAPTOP-Luis";
+const char* ssid = "S21_FE_5G";
 const char* password = "lf0602hf";
 
 // Credenciales para el escritura de datos en Firebase
@@ -158,10 +158,10 @@ void sensorTempHum(){
 void sensorFlama(){
   isFlame = digitalRead(FLAMA_PIN);   // Se le asigna a isFlame el valor recibido por el sensor de flama
   if(isFlame==HIGH){
-    flama=true;
+    flama=false;
   }
   else{
-    flama=false;
+    flama=true;
   }
 }
 
